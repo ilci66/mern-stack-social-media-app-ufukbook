@@ -5,6 +5,7 @@ const passport = require('passport');
 const passportLocal = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cors = require('cors')
 
 const routes = require('./routes/routes.js')
 
@@ -12,7 +13,7 @@ const app = express();
 //if it doesn't work uncomment 
 app.use(express.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+app.use(cors())
 require('dotenv').config();
 
 const port = process.env.PORT ||5000

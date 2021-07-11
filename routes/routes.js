@@ -9,15 +9,15 @@ const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/user.js');
 const Post = require('../models/post.js');
 
-router.post('/register', (req, res) => {
+router.post('/user/register', (req, res) => {
   const { username, password, password2, email } = req.body;
-
-  if(isEmpty(username) || isEmpty(password) || isEmpty(password2) || isEmpty(email)){
-    return res.status(400).json({ error: "Missing required fields!"})
-  }
+  console.log(username, password, email)
   if(password !== password2){
     return res.status(400).json({error: "Passwords need to be identical"})
   }
+  // if(isEmpty(username) || isEmpty(password) || isEmpty(password2) || isEmpty(email)){
+  //   return res.status(400).json({ error: "Missing required fields!"})
+  // }
   User.findOne({username: username}, (err, data) => {
     if(err){
       return res.status(400).json({ error: `An error occured: ${err}`})
@@ -29,6 +29,7 @@ router.post('/register', (req, res) => {
         password: req.body.password,
         email: req.body.email
       });
+      console.log(newUser.password)
       bcrypt.genSalt(8, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if(err){ return res.status(400).json(`error: ${err}`) }
