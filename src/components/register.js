@@ -39,14 +39,14 @@ const Register = () => {
     .then(res =>{
       console.log(res.data)
       setMessage("Account succesfully registered.")
+      window.location = '/login';
       })
     .catch(error => {
+      console.log(error)
       console.log(error.response.data.error)
       setMessage(error.response.data.error)
     })
 
-
-    // window.location = '/login';
   }
   return(
     <div>
