@@ -47,7 +47,7 @@ router.post('/register', (req, res) => {
   })
 })
 
-//now the tricky part, 
+
 // router.post('/login', (req, res, next) => {
 //   const { username, password } = req.body;
 //   User.findOne({ username: username }, (err, data) => {
@@ -64,27 +64,28 @@ router.post('/register', (req, res) => {
 //   })
 // })
 
+//now the tricky part,
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(err){ return res.status(400).json({error: "An error occured while logging in"})}
     if(!user){ return res.status(400).json({error: "Uknown user"})}
     else{
       req.logIn(user, (err) => {
-        if(err){ return res.status(400).json({error: "Another error occured while loggin in"})}
-        else{
-          console.log(req.user)
-          //maybe return done(null, user);
-          //try the one above after your break
-          res.status(200).send("authentication successful")
-        }
+        if(err) return res.status(400).json({error: "Another error occured while loggin in"})
+        console.log("here", req.user, typeof req.user)
+        return res.status(200).json(req.user)
+        //maybe return done(null, user);
+        //try the one above after your break
+        // return done(null, user)
+        // res.status(200).send("authentication successful")
       })
     }
   })(req, res, next)
 })
 
 
-router.get('posts', (req, res) => {})
-router.get('user', (req, res) => {
+router.get('/posts', (req, res) => {})
+router.get('/:id', (req, res) => {
   res.send(req.user)
 })
 

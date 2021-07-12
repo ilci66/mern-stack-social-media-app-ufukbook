@@ -13,15 +13,16 @@ const LogIn = () => {
     setPassword(e.target.value)
   }
   const handleSubmit = (e) => {
-    console.log("pushed the login button")
     (e).preventDefault()
+
+    console.log("pushed the login button")
 
     const userToCheck = {
       username: username,
       password: password
     }
     axios.post('http://localhost:5000/user/login', userToCheck)
-    .then(res =>{
+    .then(res => {
       console.log("get response from server")
       console.log(res.data)
       setMessage("Log in Successful.")
