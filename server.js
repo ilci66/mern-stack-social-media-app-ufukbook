@@ -14,20 +14,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-//using cors failed the app gonna look back later
-app.use(cors(
-    // {
-    // origin: "https://localhost:3000",
-    // credentials: true
-    // }
-  )
+
+app.use(cors()
 );
 
 app.use(
   session({
     secret:process.env.SECRET_CODE,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 )
 app.use(cookieParser(process.env.SECRET_CODE))
@@ -35,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./passportConfig.js")(passport);
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 require('./passportConfig.js')
 
@@ -50,4 +45,3 @@ mongoose.connect(process.env.MONGO_URI, {
   useFindAndModify: false})
     .then(() => app.listen(port, () => console.log(`Connected to database and listening on port: ${port}`)))
     .catch((err) => console.log(err))
-

@@ -72,7 +72,8 @@ router.post('/login', (req, res, next) => {
     else{
       req.logIn(user, (err) => {
         if(err) return res.status(400).json({error: "Another error occured while loggin in"})
-        console.log("here", req.user, typeof req.user)
+        // console.log("here", req.user, typeof req.user)
+        user.isAuthenticated = true;
         return res.status(200).json(req.user)
         //maybe return done(null, user);
         //try the one above after your break
@@ -85,6 +86,20 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/posts', (req, res) => {})
+router.get('/profile', (req, res) => {
+  // if(req.session.passport){
+  //   const userId = req.session.passport.user;
+  //   console.log(userId)
+  //   User.findById({userId}, (err, userData) => {
+  //     if(err) { console.log(err) }
+  //     else if(!userData) { res.status(400).json({  error :"There is no info about user" })}
+  //     else { return res.status(200).json(userData)}
+  //   })
+  // }
+  // console.log(user.isAuthenticated())
+  console.log(req.session.passport.user)
+  // res.send("well")
+})
 router.get('/:id', (req, res) => {
   res.send(req.user)
 })

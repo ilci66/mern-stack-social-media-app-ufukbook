@@ -10,6 +10,7 @@ module.exports = function (passport) {
         else if(!user){ return done(null, false) }
         bcrypt.compare(password, user.password, (err, result) => {
           if(err) throw err;
+          // if(err) { return done(err) }
           if(result === true) { return done(null, user) }
           else{ return done(null, false) }
         }) 

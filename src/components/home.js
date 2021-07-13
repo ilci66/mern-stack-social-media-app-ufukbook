@@ -4,6 +4,7 @@ import axios from 'axios';
 const Home = () => {
   useEffect(() => {
     
+    
   },[])
   return(
     <div>{}Home</div>

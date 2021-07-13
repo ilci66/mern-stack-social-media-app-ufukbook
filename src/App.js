@@ -2,11 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 import About from './components/about'
 import Home from './components/home'
 import Navbar from './components/navbar'
 import Register from './components/register'
 import LogIn from './components/login'
+import Profile from './components/profile'
 import Posts from './components/posts/posts'
 import Post from './components/posts/post/post.js'
 import './App.css';
@@ -34,7 +36,10 @@ function App() {
           <Route exact path="/login">
             <LogIn />
           </Route>
-          <Route exact path="/:id">
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
+          <Route exact path="/post/:id">
             <Post /> 
           </Route>
         </Switch>
