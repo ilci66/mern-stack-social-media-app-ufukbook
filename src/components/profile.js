@@ -2,17 +2,17 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios'
 
 const Profile = () => {
-  const [ isAuth, setIsAuth ] = useState(false)
+  const [ resObj, setResObj ] = useState({});
+
   useEffect(() =>{
-    axios.get('http://localhost:5000/user/profile')
-      .then(res => setIsAuth(res))
+    axios.get('http://localhost:5000/user/profile', { withCredentials: true })
+      .then(res => setResObj(res))
       .catch(err => console.log(err))
   },[])
   return(
     <div>
       <p>
-        {JSON.stringify()}
-        {JSON.stringify(isAuth.data)}
+        {JSON.stringify(resObj)}
       </p>
       Profile
     </div>

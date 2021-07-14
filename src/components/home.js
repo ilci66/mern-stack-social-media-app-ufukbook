@@ -7,7 +7,10 @@ const Home = () => {
     
   },[])
   return(
-    <div>{}Home</div>
+    <div>
+    <a href="/profile">go to profile</a>
+    Home
+    </div>
     )
 } 
 
