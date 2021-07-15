@@ -1,110 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 const Register = () => {
-  const [ username, setUsername ] = useState("")
-  const [ email, setEmail ] = useState("")
-  const [ password, setPassword ] = useState("")
-  const [ password2, setPassword2 ] = useState("")
-  const [ message, setMessage ] = useState("")
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value)
-  } 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-  }
-  const handlePassword2Change = (e) => {
-    setPassword2(e.target.value)
-  }
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // if(password !== password2){
-    //   return setMessage("Passwords need to match!")
-    // }
-    const newUser = {
-      username: username,
-      email: email,
-      password: password, 
-      password2: password2
-    }
-
-    console.log(newUser)
-
-    axios.post('http://localhost:5000/user/register', newUser)
-    .then(res =>{
-      console.log(res.data)
-      setMessage("Account succesfully registered.")
-      window.location = '/login';
-      })
-    .catch(error => {
+  const [errorMessage, setErrorMessage] = useState("")
+  const [registerUsername, setRegisterUsername] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerPassword2, setRegisterPassword2] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  
+  const register = () => {
+    axios({
+      method: "POST",
+      data: {
+        username: registerUsername,
+        password: registerPassword,
+        password2: registerPassword2,
+        email: registerEmail
+      },
+      withCredentials: true,
+      url: "http://localhost:5000/register",
+    }).then((res) => {
+      console.log(res)
+      window.location="/login"
+    }).catch(error => {
       console.log(error)
-      console.log(error.response.data.error)
-      setMessage(error.response.data.error)
+      setErrorMessage(error.response.data.error)
     })
-
-  }
-  return(
+  };
+  return (
     <div>
-      <h3>
-        Register
-      </h3>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Username:</label>
-          <input type="text"
-            required
-            className="form-control"
-            name="username"
-            value={username}
-            onChange={handleUsernameChange}
-            >
-          </input>
-        </div>
-        <div className="form-group">
-        <label>Email:</label>
-        <input type="text"
-            required
-            className="form-control"
-            name="email"
-            value={email}
-            onChange={handleEmailChange}
-            >
-          </input>
-        </div>
-        <div className="form-group">
-        <label>Password:</label>
-        <input type="password"
-            required
-            className="form-control"
-            name="password"
-            value={password}
-            onChange={handlePasswordChange}
-            >
-          </input>
-        </div>
-        <div className="form-group">
-        <label>Password (the same one) :</label>
-        <input type="password"
-            required
-            className="form-control"
-            value={password2}
-            name="password2"
-            onChange={handlePassword2Change}
-            >
-          </input>
-        </div>
-        <div className="form-group">
-          <input type="submit" value="Register" className="btn btn-primary" />
-        </div>
-      </form>
-      <p>Do you have an account?<a href="/login">Login</a></p>
-    </div>
+    <h1>Register</h1>
+    <input
+      className="form-control"
+      placeholder="username"
+      onChange={(e) => setRegisterUsername(e.target.value)}
+    />
+    <input
+      className="form-control"
+      type="text"
+      placeholder="example@gmail.com"
+      onChange={(e) => setRegisterEmail(e.target.value)}
+    />    
+    <input
+      className="form-control"
+      type="password"
+      placeholder="password"
+      onChange={(e) => setRegisterPassword(e.target.value)}
+    />
+    <input
+      className="form-control"
+      type="password"
+      placeholder="same password"
+      onChange={(e) => setRegisterPassword2(e.target.value)}
+    />
+    <button className="btn btn-primary"onClick={register}>Submit</button>
+    <p>
+      Do you have an account? <Link to="/login">Login</Link>
+    </p>
+    <p className="">{errorMessage}</p>
+  </div>
+
   )
 }
 

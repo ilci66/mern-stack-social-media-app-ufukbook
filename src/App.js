@@ -7,7 +7,7 @@ import About from './components/about'
 import Home from './components/home'
 import Navbar from './components/navbar'
 import Register from './components/register'
-import LogIn from './components/login'
+import Login from './components/login'
 import Profile from './components/profile'
 import Posts from './components/posts/posts'
 import Post from './components/posts/post/post.js'
@@ -18,11 +18,12 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/posts">
+          {/* <Route exact path="/posts">
             <Navbar />
             <Posts />
-          </Route>
+          </Route> */}
           <Route exact path="/"> 
+            <Posts />
             <Navbar />
             <Home />
           </Route>
@@ -30,18 +31,10 @@ function App() {
             <Navbar />
             <About />
           </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          <Route exact path="/login">
-            <LogIn />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/post/:id">
-            <Post /> 
-          </Route>
+          <Route exact path="/register"><Register /></Route>
+          <Route exact path="/login"><Login /></Route>
+          <Route exact path="/profile"></Route>
+          <Route exact path="/post/:id"><Post /></Route>
         </Switch>
       </Router>
     </div>

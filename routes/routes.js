@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const bcrypt = require('bcrypt')
 const passport = require('passport');
@@ -10,8 +11,9 @@ const User = require('../models/user.js');
 const Post = require('../models/post.js');
 
 router.post('/register', (req, res) => {
+
   const { username, password, password2, email } = req.body;
-  console.log(username, password, email)
+  console.log(username, password, "what ",email)
   if(password !== password2){
     return res.status(400).json({error: "Passwords need to be identical"})
   }
@@ -68,40 +70,46 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(err){ return res.status(400).json({error: "An error occured while logging in"})}
-    if(!user){ return res.status(400).json({error: "Uknown user"})}
+    // if(err) throw err;
+    if(!user){ return res.status(400).json({error: "Unknown user or password"})}
+    // if (!user) res.send("No User Exists");
     else{
       req.logIn(user, (err) => {
-        if(err) return res.status(400).json({error: "Another error occured while loggin in"})
-        // console.log("here", req.user, typeof req.user)
-        user.isAuthenticated = true;
-        return res.status(200).json(req.user)
-        //maybe return done(null, user);
-        //try the one above after your break
-        // return done(null, user)
-        // res.status(200).send("authentication successful")
-      })
+        // if (err) throw err;
+        if (err) {return res.status(400).json({error: "login error"})};
+        res.send("Successfully Authenticated");
+        console.log("backend user>>>>", req.user);
+      });
+      // req.logIn(user, (err) => {
+      //   if(err) return res.status(400).json({error: "Another error occured while loggin in"})
+      //   // console.log("here", req.user, typeof req.user)
+      //   user.isAuthenticated = true;
+      //   return res.status(200).json(req.user)
+      //   //maybe return done(null, user);
+      //   //try the one above after your break
+      //   // return done(null, user)
+      //   // res.status(200).send("authentication successful")
+      // })
     }
   })(req, res, next)
 })
 
 
-router.get('/posts', (req, res) => {})
-router.get('/profile', (req, res) => {
-  // if(req.session.passport){
-  //   const userId = req.session.passport.user;
-  //   console.log(userId)
-  //   User.findById({userId}, (err, userData) => {
-  //     if(err) { console.log(err) }
-  //     else if(!userData) { res.status(400).json({  error :"There is no info about user" })}
-  //     else { return res.status(200).json(userData)}
-  //   })
-  // }
-  // console.log(user.isAuthenticated())
-  console.log(req.session.passport.user)
-  // res.send("well")
+router.get('/posts', (req, res) => {
+
 })
-router.get('/:id', (req, res) => {
+router.get('/profile', (req, res) => {
+  console.log(req.isAuthenticated())
+  res.send(req.user)
+  console.log(req.user)
+
+})
+router.get('/user', (req, res) => {
   res.send(req.user)
 })
-
+router.get('/logout', (req, res) => {
+  console.log("wanna logout")
+  req.logout();
+  res.redirect("/")
+})
 module.exports = router

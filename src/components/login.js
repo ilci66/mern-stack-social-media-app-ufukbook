@@ -1,75 +1,78 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import {Link} from 'react-router-dom'
+import axios from 'axios'
 
-const LogIn = () => {
-  const [ username, setUsername ] = useState("")
-  const [ password, setPassword ] = useState("")
-  const [ message, setMessage ] = useState("")
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value)
-  } 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-  }
-  const handleSubmit = (e) => {
-    (e).preventDefault()
-
-    console.log("pushed the login button")
-
-    const userToCheck = {
-      username: username,
-      password: password
-    }
-    axios.post('http://localhost:5000/user/login', userToCheck)
+const Login = () => {
+  const [errorMessage, setErrorMessage] = useState("")
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const data = {username: loginUsername,password: loginPassword,}
+  const login = () => {
+  axios.post('http://localhost:5000/login', data, {withCredentials: true})
     .then(res => {
       console.log("get response from server")
       console.log(res.data)
-      setMessage("Log in Successful.")
+      setErrorMessage("Log in Successful.")
       window.location = '/'
       })
     .catch(error => {
       console.log("got an error from server")
       console.log(error.response.data.error)
-      setMessage(error.response.data.error)
+      setErrorMessage(error.response.data.error)
     })
-  }
-  return(
+  // axios({
+  //   method: "POST",
+  //   data: {
+  //     username: loginUsername,
+  //     password: loginPassword,
+  //   },
+  //   withCredentials: true,
+  //   url: "http://localhost:5000/login",
+  // }).then((res) => {
+  //   window.location="/"
+  //   console.log("response <<<", res)
+  // }).catch(error => {
+  //   console.log(error)
+  //   setErrorMessage(error.response.data.error)
+  // })
+};
+  return (
     <div>
-    <h3>
-      Log In
-    </h3>
-    <p>{message}</p>
-    <form onSubmit={handleSubmit}>
+    <h1>Login</h1>
+    <form onSubmit={login}>
       <div className="form-group">
-        <label>Username:</label>
-        <input type="text"
-          required
+        <label>Username</label>
+          <input
           className="form-control"
-          name="username"
-          value={username}
-          onChange={handleUsernameChange}
-          >
-        </input>
+          type="text"
+          required
+          // placeholder="username"
+          onChange={(e) => setLoginUsername(e.target.value)}
+        />
       </div>
       <div className="form-group">
-      <label>Password:</label>
-      <input type="password"
-          required
+        <label>Password</label>
+        <input
           className="form-control"
-          name="password"
-          value={password}
-          onChange={handlePasswordChange}
-          >
-        </input>
+          type="text"
+          required
+          type="password"
+          // placeholder="password"
+          onChange={(e) => setLoginPassword(e.target.value)}
+      />
       </div>
+      {/* <div className="form-group">
+        <input type="submit" value="Enter" className="btn"> </input>
+      </div> */}
       <div className="form-group">
         <input type="submit" value="Enter" className="btn btn-primary" />
       </div>
     </form>
-    <p>Don't you have an account? <a href="/register">Register</a></p>
-  </div>
-    )
-} 
 
-export default LogIn
+    <p>Don't you have an account? <Link to="/register">Register</Link></p>
+    <p>{errorMessage}</p>
+  </div>
+  )
+}
+
+export default Login
