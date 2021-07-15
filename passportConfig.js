@@ -8,15 +8,14 @@ module.exports = function (passport) {
       User.findOne({ username: username }, (err, user) => {
         if (err) throw err;
         if (!user) {
-          // res.status(400).json({error: "no user with that username"})
-          return done(null, false)
+          return done(null, false, {error: "Uknown User"})
         };
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) throw err;
           if (result === true) {
             return done(null, user);
           } else {
-            return done(null, false);
+            return done(null, false, {error: "Wrong Password"});
           }
         });
       });

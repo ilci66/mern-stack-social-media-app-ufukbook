@@ -31,34 +31,51 @@ const Register = () => {
   return (
     <div>
     <h1>Register</h1>
-    <input
-      className="form-control"
-      placeholder="username"
-      onChange={(e) => setRegisterUsername(e.target.value)}
-    />
-    <input
-      className="form-control"
-      type="text"
-      placeholder="example@gmail.com"
-      onChange={(e) => setRegisterEmail(e.target.value)}
+    <div className="form-group">
+    <label>Username</label>
+      <input
+        type="text"
+        required
+        className="form-control"
+        // placeholder="username"
+        onChange={(e) => setRegisterUsername(e.target.value)}
+      />
+    </div>
+    <div className="form-group">
+    <label>Email</label>
+     <input
+        required
+        className="form-control"
+        type="text"
+        // placeholder="example@gmail.com"
+        onChange={(e) => setRegisterEmail(e.target.value)}
     />    
+    </div>
+
+    <div className="form-group"></div>
+    <label>Password</label>
     <input
       className="form-control"
       type="password"
-      placeholder="password"
+      // placeholder="password"
       onChange={(e) => setRegisterPassword(e.target.value)}
     />
-    <input
-      className="form-control"
-      type="password"
-      placeholder="same password"
-      onChange={(e) => setRegisterPassword2(e.target.value)}
-    />
+    <div className="form-group">
+    <label>Password again</label>
+     <input
+        required
+        className="form-control"
+        type="password"
+        // placeholder="same password"
+        onChange={(e) => setRegisterPassword2(e.target.value)}
+    /> 
+    </div>
+    
     <button className="btn btn-primary"onClick={register}>Submit</button>
     <p>
       Do you have an account? <Link to="/login">Login</Link>
     </p>
-    <p className="">{errorMessage}</p>
+    <p className="text-danger">{errorMessage}</p>
   </div>
 
   )

@@ -3,22 +3,22 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 
 const Login = () => {
-  const [errorMessage, setErrorMessage] = useState("")
+  const [message, setMessage] = useState("")
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const data = {username: loginUsername,password: loginPassword,}
-  const login = () => {
+  const data = {username: loginUsername, password: loginPassword}
+  const login = (e) => {
   axios.post('http://localhost:5000/login', data, {withCredentials: true})
     .then(res => {
       console.log("get response from server")
       console.log(res.data)
-      setErrorMessage("Log in Successful.")
+      setMessage("Log in Successful.")
       window.location = '/'
       })
     .catch(error => {
       console.log("got an error from server")
-      console.log(error.response.data.error)
-      setErrorMessage(error.response.data.error)
+      console.log("catching", error.response)
+      setMessage(error.response.data.error)
     })
   // axios({
   //   method: "POST",
@@ -38,40 +38,62 @@ const Login = () => {
 };
   return (
     <div>
-    <h1>Login</h1>
-    <form onSubmit={login}>
-      <div className="form-group">
+        <h1>Login</h1>
+        <div className="form-group">
         <label>Username</label>
           <input
           className="form-control"
           type="text"
-          required
+           required
           // placeholder="username"
           onChange={(e) => setLoginUsername(e.target.value)}
-        />
-      </div>
-      <div className="form-group">
+         /> 
         <label>Password</label>
-        <input
+          <input
           className="form-control"
-          type="text"
-          required
-          type="password"
-          // placeholder="password"
-          onChange={(e) => setLoginPassword(e.target.value)}
-      />
+           required
+           type="password"
+           // placeholder="password"
+           onChange={(e) => setLoginPassword(e.target.value)}
+          />
+        <button onClick={login}>Submit</button>
+        <p>{message}</p>
+        </div>
+        
       </div>
-      {/* <div className="form-group">
-        <input type="submit" value="Enter" className="btn"> </input>
-      </div> */}
-      <div className="form-group">
-        <input type="submit" value="Enter" className="btn btn-primary" />
-      </div>
-    </form>
+  //something here in the forms breaks the request gonna figure out what
+  //probably the submit but we will see
+  //   <div>
+  //   <h1>Login</h1>
+  //   <form onSubmit={login}>
+  //     <div className="form-group">
+  //       <label>Username</label>
+  //         <input
+  //         className="form-control"
+  //         type="text"
+  //         required
+  //         // placeholder="username"
+  //         onChange={(e) => setLoginUsername(e.target.value)}
+  //       />
+  //     </div>
+  //     <div className="form-group">
+  //       <label>Password</label>
+  //       <input
+  //         className="form-control"
+  //         required
+  //         type="password"
+  //         // placeholder="password"
+  //         onChange={(e) => setLoginPassword(e.target.value)}
+  //     />
+  //     </div>
+  //     <div className="form-group">
+  //       <input type="submit" value="Enter" className="btn btn-primary" />
+  //     </div>
+  //   </form>
 
-    <p>Don't you have an account? <Link to="/register">Register</Link></p>
-    <p>{errorMessage}</p>
-  </div>
+  //   <p>Don't you have an account? <Link to="/register">Register</Link></p>
+  //   <p className="text-danger">{message}</p>
+  // </div>
   )
 }
 

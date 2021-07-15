@@ -13,7 +13,7 @@ const Post = require('../models/post.js');
 router.post('/register', (req, res) => {
 
   const { username, password, password2, email } = req.body;
-  console.log(username, password, "what ",email)
+  // console.log(username, password, "what ",email)
   if(password !== password2){
     return res.status(400).json({error: "Passwords need to be identical"})
   }
@@ -68,28 +68,20 @@ router.post('/register', (req, res) => {
 
 //now the tricky part,
 router.post('/login', (req, res, next) => {
+
   passport.authenticate('local', (err, user, info) => {
-    if(err){ return res.status(400).json({error: "An error occured while logging in"})}
-    // if(err) throw err;
-    if(!user){ return res.status(400).json({error: "Unknown user or password"})}
-    // if (!user) res.send("No User Exists");
+    if(err) throw err;
+    if(!user){ 
+      console.log("this be the info", info.error)
+      return res.status(401).json(info)
+    }
     else{
       req.logIn(user, (err) => {
-        // if (err) throw err;
-        if (err) {return res.status(400).json({error: "login error"})};
-        res.send("Successfully Authenticated");
-        console.log("backend user>>>>", req.user);
-      });
-      // req.logIn(user, (err) => {
-      //   if(err) return res.status(400).json({error: "Another error occured while loggin in"})
-      //   // console.log("here", req.user, typeof req.user)
-      //   user.isAuthenticated = true;
-      //   return res.status(200).json(req.user)
-      //   //maybe return done(null, user);
-      //   //try the one above after your break
-      //   // return done(null, user)
-      //   // res.status(200).send("authentication successful")
-      // })
+        if (err) throw err;
+        // if (err) {return res.status(400).json({error: "login error"})};
+        res.status(200).send("Successfully Authenticated");
+        console.log("backend user>>>>", req.user);}
+      );
     }
   })(req, res, next)
 })
