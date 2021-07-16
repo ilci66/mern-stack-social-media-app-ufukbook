@@ -23,11 +23,9 @@ function App() {
             <Posts />
           </Route> */}
           <Route exact path="/"> 
-            
             <NavBar />
             <Home />
-            <Posts />
-            
+            {/* <Posts /> */}
           </Route>
           <Route exact path="/about">
             <NavBar />

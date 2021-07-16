@@ -49,24 +49,6 @@ router.post('/register', (req, res) => {
   })
 })
 
-
-// router.post('/login', (req, res, next) => {
-//   const { username, password } = req.body;
-//   User.findOne({ username: username }, (err, data) => {
-//     if(err){return res.status(400).json({error: err})}
-//     else if(!data){ return res.json({error: "Unknown user name"})} 
-//     else{
-//       bcrypt.compare(password, data.password)
-//         .then(result => {
-//           if(result){return res.status(200).json(data)}
-//           else{return res.status(400).json({error: "Wrong password"})}
-//         })
-//         .catch(err => console.log(err))
-//     }
-//   })
-// })
-
-//now the tricky part,
 router.post('/login', (req, res, next) => {
 
   passport.authenticate('local', (err, user, info) => {
@@ -90,15 +72,23 @@ router.post('/login', (req, res, next) => {
 router.get('/posts', (req, res) => {
 
 })
+router.post('/post/create', (req, res) => {
+  const {image, creator, title, postInfo} = req.body
+  const newPost = new Post({
+    image: image,
+    creator: creator,
+    title: title,
+    postInfo: postInfo,
+    likes:[]
+  })
+})  
 router.get('/profile', (req, res) => {
   console.log(req.isAuthenticated())
   res.send(req.user)
   console.log(req.user)
 
 })
-router.get('/user', (req, res) => {
-  res.send(req.user)
-})
+
 router.get('/logout', (req, res) => {
   console.log("wanna logout")
   req.logout();
