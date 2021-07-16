@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {Link} from 'react-router-dom'
+import { Alert } from 'react-bootstrap'
 import axios from 'axios'
 
 const Login = () => {
@@ -8,18 +9,18 @@ const Login = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const data = {username: loginUsername, password: loginPassword}
   const login = (e) => {
-  axios.post('http://localhost:5000/login', data, {withCredentials: true})
-    .then(res => {
-      console.log("get response from server")
-      console.log(res.data)
-      setMessage("Log in Successful.")
-      window.location = '/'
+    axios.post('http://localhost:5000/login', data, {withCredentials: true})
+      .then(res => {
+        console.log("get response from server")
+        console.log(res.data)
+        // setMessage("Log in Successful.")
+        window.location = '/'
+        })
+      .catch(error => {
+        console.log("got an error from server")
+        console.log("catching", error.response)
+        setMessage(error.response.data.error)
       })
-    .catch(error => {
-      console.log("got an error from server")
-      console.log("catching", error.response)
-      setMessage(error.response.data.error)
-    })
   // axios({
   //   method: "POST",
   //   data: {
@@ -36,8 +37,13 @@ const Login = () => {
   //   setErrorMessage(error.response.data.error)
   // })
 };
+const handleKeyPress = (event) => {
+  if(event.charCode === 13){
+    login()
+  }
+}
   return (
-    <div>
+    <div onKeyPress={handleKeyPress}>
         <h1>Login</h1>
         <div className="form-group">
         <label>Username</label>
@@ -56,10 +62,15 @@ const Login = () => {
            // placeholder="password"
            onChange={(e) => setLoginPassword(e.target.value)}
           />
-        <button onClick={login}>Submit</button>
-        <p>{message}</p>
+        <div  classname="form-group">
+        <input type="submit" value="enter" className="btn btn-primary" onClick={login}></input>
         </div>
+        <p>Don't you have an account? <Link to="/register">Register</Link></p>
+        {message != "" && <Alert variant="danger">
+          <p>{message}</p>
+        </Alert>}
         
+        </div>
       </div>
   //something here in the forms breaks the request gonna figure out what
   //probably the submit but we will see
