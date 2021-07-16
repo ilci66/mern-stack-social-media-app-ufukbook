@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Form,FormControl,Button } from 'react-bootstrap'
 import axios from 'axios';
 
 const Home = () => {
@@ -40,6 +41,10 @@ const Home = () => {
     <a className="btn btn-secondary" href="/profile">go to profile</a>
     <button className="btn btn-primary"onClick={handleLogout}>logout</button>
     Home
+    <Form inline>
+                  <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                  <Button variant="outline-success">Search</Button>
+                  </Form>
     </div>
   )
 } 

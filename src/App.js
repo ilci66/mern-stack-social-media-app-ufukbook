@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import About from './components/about'
 import Home from './components/home'
-import Navbar from './components/navbar'
+import NavBar from './components/navbar'
 import Register from './components/register'
 import Login from './components/login'
 import Profile from './components/profile'
@@ -23,17 +23,22 @@ function App() {
             <Posts />
           </Route> */}
           <Route exact path="/"> 
-            <Posts />
-            <Navbar />
+            
+            <NavBar />
             <Home />
+            <Posts />
+            
           </Route>
           <Route exact path="/about">
-            <Navbar />
+            <NavBar />
             <About />
           </Route>
           <Route exact path="/register"><Register /></Route>
           <Route exact path="/login"><Login /></Route>
-          <Route exact path="/profile"></Route>
+          <Route exact path="/profile">
+            <NavBar />
+            <Profile />
+          </Route>
           <Route exact path="/post/:id"><Post /></Route>
         </Switch>
       </Router>
