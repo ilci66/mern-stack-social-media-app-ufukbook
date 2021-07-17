@@ -70,11 +70,17 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/posts', (req, res) => {
-
+  Post.find({}, (err, data) => {
+    if(err) throw err;
+    else if(!data) res.status(400).json({error: "There are no posts to show"})
+    else{
+      res.status(200).json(data)
+    }
+  })
 })
 router.post('/post/create', (req, res) => {
-  const {postPic, creator, title, postInfo} = req.body
-  console.log(postPic)
+  const {image, creator, title, postInfo} = req.body
+  // console.log("this is the image", image)
   if(isEmpty(postInfo) || isEmpty(title)){
     return res.status(400).json({ error: "Missing required fields"})
   }
@@ -84,19 +90,19 @@ router.post('/post/create', (req, res) => {
       return res.status(400).json({error: "There's already a post with the same title!"})
     }else{
       const newPost = new Post({
-        image: postPic,
+        image: image,
         creator: creator,
         title: title,
         postInfo: postInfo,
         likes:[]
       })
       // console.log(newPost.image)
-      // newPost.save()
-      //   .then(post => {
-      //   console.log(post)
-      //   res.status(201).send("successfully created")
-      //   })
-      //   .catch(error => {console.log(error)})
+      newPost.save()
+        .then(post => {
+        console.log(post)
+        res.status(201).send("successfully created")
+        })
+        .catch(error => {console.log(error)})
     }
   })
 })  
