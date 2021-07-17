@@ -73,13 +73,31 @@ router.get('/posts', (req, res) => {
 
 })
 router.post('/post/create', (req, res) => {
-  const {image, creator, title, postInfo} = req.body
-  const newPost = new Post({
-    image: image,
-    creator: creator,
-    title: title,
-    postInfo: postInfo,
-    likes:[]
+  const {postPic, creator, title, postInfo} = req.body
+  console.log(postPic)
+  if(isEmpty(postInfo) || isEmpty(title)){
+    return res.status(400).json({ error: "Missing required fields"})
+  }
+  Post.findOne({title: title}, (err, data) => {
+    if(err) throw err
+    else if(data) {
+      return res.status(400).json({error: "There's already a post with the same title!"})
+    }else{
+      const newPost = new Post({
+        image: postPic,
+        creator: creator,
+        title: title,
+        postInfo: postInfo,
+        likes:[]
+      })
+      // console.log(newPost.image)
+      // newPost.save()
+      //   .then(post => {
+      //   console.log(post)
+      //   res.status(201).send("successfully created")
+      //   })
+      //   .catch(error => {console.log(error)})
+    }
   })
 })  
 router.get('/profile', (req, res) => {

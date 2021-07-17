@@ -25,7 +25,7 @@ const Home = () => {
   },[])
   return(
     <div>
-    <Posts />
+    <Posts userInfo={userInfo}/>
     </div>
   )
 } 

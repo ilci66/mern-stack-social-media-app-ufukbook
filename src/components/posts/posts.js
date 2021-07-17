@@ -2,7 +2,8 @@ import React from 'react';
 import Post from './post/post'
 import {Container, Col, Row, Form, FormControl, Button} from 'react-bootstrap'
 
-const Posts = () => {
+const Posts = ({userInfo}) => {
+  console.log(userInfo)
   return(
     <div>
       <Form inline>
@@ -11,7 +12,7 @@ const Posts = () => {
       </Form>
       <Container>
         <Row>
-          <Col lg={3} md={4}  sm={12}><Post /></Col> 
+          <Col lg={3} md={4}  sm={12}><Post userInfo={userInfo}/></Col> 
           <Col lg={9} md={8} sm={12}>
             <h2>Posts will be mapped here</h2>
           </Col>
