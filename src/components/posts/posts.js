@@ -11,10 +11,10 @@ const Posts = () => {
       </Form>
       <Container>
         <Row>
-          <Col xs={{order: "last"}} lg={8} md={6} sm={12}>
+          <Col lg={3} md={4}  sm={12}><Post /></Col> 
+          <Col lg={9} md={8} sm={12}>
             <h2>Posts will be mapped here</h2>
           </Col>
-          <Col lg={4} md={6} xs={{order: "first"}} sm={12}><Post /></Col> 
         </Row>
         
       </Container>
