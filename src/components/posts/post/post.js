@@ -62,7 +62,7 @@ const Post = ({userInfo}) => {
         </div>
         <div className="form-floating mb-3">
           <input 
-            maxLength="25"
+            maxLength="30"
             required
             type="text" 
             className="form-control" 
@@ -70,18 +70,18 @@ const Post = ({userInfo}) => {
             id="floatingTitle" 
             placeholder="Example Title"
           />
-          <label for="floatingInput">Post Title <span style={{ fontSize: "9px"}}>(25 characters)</span></label>
+          <label for="floatingInput">Post Title </label>
         </div>
         <div className="form-floating mb-3">
           <input
-            maxLength="100"
+            maxLength="200"
             required
             type="text" 
             className="form-control" 
             onChange={(e) => setPostInfo(e.target.value)} 
             id="floatingPostInfo" 
             placeholder="Camping with Ufuk"/>
-          <label for="FloatingPostInfo">What's your post about? <span style={{ fontSize: "9px"}}>(200 characters)</span></label>
+          <label for="FloatingPostInfo">What's your post about? </label>
         </div>
         <button onClick={handleSubmit} className="btn btn-primary mb-5">Submit</button>
         

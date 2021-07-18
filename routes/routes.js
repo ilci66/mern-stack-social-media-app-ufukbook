@@ -105,6 +105,33 @@ router.post('/post/create', (req, res) => {
         .catch(error => {console.log(error)})
     }
   })
+})
+router.post('/post/like', (req, res) => {
+  const {username, id} = req.body
+  if(isEmpty(username)){return res.status(400).json({error: "Please login"})}
+  console.log(id, username)
+  Post.findOne({_id:id}, (err, data) => {
+    if(err) throw err
+    else if(!data) res.status(400).json({error: "no data"})
+    else{
+      if(data.likes.indexOf(username) >= 0 ){
+        console.log("here I am")
+        //maybe async will fix the weird error I sometimes get try it
+        // const dislike = () => {
+
+        // }
+        data.likes = data.likes.filter(name => name != username)
+        data.save((err, data))
+        res.json({message: "disliked"})
+      }else{
+        console.log('there be me')
+        data.likes.push(username)
+        data.save()
+        res.json({message: "liked"})
+      }
+    }
+  })
+
 })  
 router.get('/profile', (req, res) => {
   console.log(req.isAuthenticated())
