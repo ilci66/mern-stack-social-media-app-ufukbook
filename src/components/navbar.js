@@ -4,6 +4,7 @@ import { Navbar,Nav,NavDropdown,Form,FormControl,Button } from 'react-bootstrap'
 
 const NavBar = () => {
   const handleLogout = (e) => {
+    console.log("came here to logout")
     axios({
       method: "GET",
       withCredentials: true,
@@ -27,15 +28,8 @@ const NavBar = () => {
                   <Nav className="p-2">
                   <Nav.Link className="m-1" href="/">Home</Nav.Link>
                   <Nav.Link className="m-1" href="/about">About Ufuk</Nav.Link>
-                  {/* <NavDropdown  title="Dropdown" id="basic-nav-dropdown" className="justify-content-around">
-                      <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item className="m-1" href="https://github.com/ilci66">Creator's github page</NavDropdown.Item>
-                  </NavDropdown> */}
                   <Nav.Link className="m-1" href="/profile">View Your Profile</Nav.Link>
-                  <Button className="m-1" variant="secondary">Log Out</Button>
+                  <Button className="m-1" variant="secondary" onClick={handleLogout}>Log Out</Button>
                   </Nav>
               </Navbar.Collapse>
           </Navbar>

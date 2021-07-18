@@ -21,26 +21,40 @@ const Posts = ({userInfo}) => {
       })
   }, [])
   
-  const handleLike = (e) => {
-    console.log(typeof e.target.id, typeof e.target.value)
-    console.log("this is likes", typeof e.target.value)
-    console.log("this is the id", )
-    
-    const data = { 
-      username: userInfo.username,
-      id: e.target.id
+  const handleDelete = (e) => {
+    if(userInfo.username !== e.target.value){
+      return alert("You can only delete your own posts!")
+    }else{
+      console.log("this is my post and I want it gone ")
     }
-    axios.post('http://localhost:5000/post/like', data, {withCredentials: true})
-      .then(res => {
-        console.log(res.data.message)
-        if(res.data.message === "disliked") {}
-        if(res.data.message === "liked") {}
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  } 
 
-  }
+  // const handleLike = (e) => {
+  //   if(!userInfo){ return window.location = '/login'}
+  //   console.log(typeof e.target.id, typeof e.target.value)
+  //   console.log("this is likes", typeof e.target.value)
+  //   console.log("this is the id", )
+    
+  //   const data = { 
+  //     username: userInfo.username,
+  //     id: e.target.id
+  //   }
+  //   axios.post('http://localhost:5000/post/like', data, {withCredentials: true})
+  //     .then(res => {
+  //       console.log(res.data.message)
+  //       if(res.data.message === "disliked") {
+  //         setLiked("Like")
+  //         window.location.reload(false)
+  //       }
+  //       if(res.data.message === "liked") {
+  //         setLiked("Dislike")
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
+
+  // }
 //aldıgın datayı gerekli olanları en azında state butonu ve badgi oyle degistir button stateleri de degistirsin mix
   return(
     <div>
@@ -61,12 +75,8 @@ const Posts = ({userInfo}) => {
                   <Card.Text>
                     {post.postInfo}
                   </Card.Text>
-                  <Button onClick={handleLike} value={post.likes} id={post._id} variant="success">
-                    
-                    {post.likes.indexOf(userInfo.username) >= 0 ? "Dislike" : "Like"}
-                    <Badge variant="secondary" value={post.likes.length}>{post.likes.length}</Badge>
-                  </Button>
-                  
+                  {/* <Button onClick={handleLike} value={post.likes} id={post._id} variant="success"></Button> */}
+                  <Button value={post.creator} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
                 <Card.Footer>
                   Ceated By: {post.creator}
                 </Card.Footer>

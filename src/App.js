@@ -37,7 +37,7 @@ function App() {
             <NavBar />
             <Profile />
           </Route>
-          <Route exact path="/post/:id"><Post /></Route>
+          {/* <Route exact path="/post/:id"><Post /></Route> */}
         </Switch>
       </Router>
     </div>
