@@ -1,50 +1,43 @@
-// import React, { useState, useEffect} from 'react';
-// import axios from 'axios'
-
-// const Profile = () => {
-//   const [ resObj, setResObj ] = useState({});
-
-//   useEffect(() =>{
-//     axios({
-//       method: "GET",
-//       withCredentials: true,
-//       url: 'http://localhost:5000/user/profile',
-//     }).then((res) => {
-//       setResObj(res.data);
-//       console.log(res.data);
-//     });
-//   },[])
-//   return(
-//     <div>
-//       <p>
-//         {JSON.stringify(resObj)}
-//       </p>
-//       Profile
-//     </div>
-//     )
-// } 
-
-// export default Profile
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+import ru from 'javascript-time-ago/locale/ru'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
+
 
 const Profile = () => {
   const [data, setData] = useState(null);
-  const Profile = () => {
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5000/profile",
-    }).then((res) => {
-      setData(res.data);
-      console.log(res.data);
-    });
-  };
+
+    useEffect(() => {
+      axios({
+        method: "GET",
+        withCredentials: true,
+        url: "http://localhost:5000/user/profile",
+      }).then((res) => {
+        console.log(res.data);
+        if(res.data) setData(res.data)
+        else if(!res.data){
+          console.log("no data came through")
+          // window.location="/login"
+        }
+      }).catch(error => {
+        console.log("some error occured", error)
+        // window.location="/login"
+      })
+    },[])
+    
+  
   return (
   <div> 
-    <h1>Get User</h1>
-    <button onClick={Profile}>Submit</button>
-    {data ? <h1>Welcome Back {data.username}</h1> : null}
+    <h2 className="mb-5">Hello!</h2>
+    {data ? <p className="mb-2">Welcome back <b>{data.username}</b> <br></br> Your email adress: <b>{data.email}</b> <br></br>
+    Your membership was created <b><ReactTimeAgo date={data.createdAt} locale="en-US"/></b><br></br>
+    and created <b>{data.postedCount}</b> posts.</p>  : "Loading..."}
+
   </div>
 
   )

@@ -29,7 +29,8 @@ router.post('/register', (req, res) => {
       const newUser = new User({
         username : req.body.username,
         password: req.body.password,
-        email: req.body.email
+        email: req.body.email,
+        postedCount:0
       });
       console.log(newUser.password)
       bcrypt.genSalt(8, (err, salt) => {
@@ -78,6 +79,24 @@ router.get('/posts', (req, res, next) => {
     }
   })
 })
+router.delete('/delete', (req, res) => {
+  // console.log("comes here<<<<<")
+  const { title, creator } = req.body
+  // console.log("these are the stuff<<<<<<<", title, creator)
+  Post.findOneAndRemove({title:title}, (err, data) => {
+    if(err) throw err
+    if(!data) res.status(400).json({error: "no data found"})
+    else{
+      res.status(204).json({message:"successfully deleted"})
+      console.log("deletion successfull")
+      User.findOneAndUpdate({username: creator},{$inc : {'postedCount' : -1}}, {new:true}).exec((err, data) => {
+        if(err)throw err
+        else if(!data) res.status(400).json({error: "no data found"})
+        else{ console.log("successfully decremented") }
+      })
+    }
+  })
+})
 router.post('/post/create', (req, res) => {
   const {image, creator, title, postInfo} = req.body
   // console.log("this is the image", image)
@@ -101,6 +120,11 @@ router.post('/post/create', (req, res) => {
         .then(post => {
         console.log(post)
         res.status(201).send("successfully created")
+        User.findOneAndUpdate({username: creator},{$inc : {'postedCount' : 1}}, {new:true}).exec((err, data) => {
+          if(err)throw err
+          else if(!data) res.status(400).json({error: "no data found"})
+          else{ console.log("successfully incremented") }
+        })
         })
         .catch(error => {console.log(error)})
     }
@@ -138,7 +162,19 @@ router.get('/profile', (req, res) => {
   console.log(req.isAuthenticated())
   res.send(req.user)
   console.log(req.user)
-
+})
+router.get('/user/profile', (req, res) => {
+  console.log("this is for profile", req.isAuthenticated())
+  if(!req.isAuthenticated()){
+    return res.status(400).json({error: "Unauthorized attempt"})
+  }
+  // res.send(req.user)
+  console.log(req.user)
+  User.findOne({username: req.user.username}, (err, user) => {
+    if(err) throw err
+    else if(!user) res.status(404).json({error: "no data found"})
+    else{ res.status(200).json(user) }
+  })
 })
 
 router.get('/logout', (req, res) => {

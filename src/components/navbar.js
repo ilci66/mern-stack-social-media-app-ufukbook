@@ -21,7 +21,7 @@ const NavBar = () => {
     <div>
       <div className="row">
         <div className=" d-flex flex-column">
-          <Navbar className="justify-content-around" bg="dark" variant="dark" expand="md" sticky="top">
+          <Navbar className="justify-content-around mb-5" bg="dark" variant="dark" expand="md" sticky="top">
               <Navbar.Brand href="/" className="mx-3 p-2">UfukBook</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" className="mr-5 justify-content-around"/>
               <Navbar.Collapse id="basic-navbar-nav" className="mr-5 justify-content-end">

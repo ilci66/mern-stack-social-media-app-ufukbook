@@ -34,6 +34,7 @@ const Post = ({userInfo}) => {
           Array.from(document.querySelectorAll("input")).forEach(
             input => (input.value = "")
           );
+          window.location.reload(false)
           })
         .catch(error => {
           console.log("got an error from server")

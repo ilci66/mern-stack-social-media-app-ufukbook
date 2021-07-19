@@ -2,6 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Post from './post/post'
 import axios from 'axios'
 import {Container, Col, Row, Form, FormControl, Button, Card, Img, Body, Title, Text, Footer, Badge} from 'react-bootstrap'
+import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+import ru from 'javascript-time-ago/locale/ru'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
 
 const Posts = ({userInfo}) => {
   const [allPosts, setAllPosts] = useState(undefined)
@@ -20,12 +27,24 @@ const Posts = ({userInfo}) => {
         console.log(error)
       })
   }, [])
-  
+  const handleSearch = (e) => {
+    console.log(e.target.value)
+  }
   const handleDelete = (e) => {
-    if(userInfo.username !== e.target.value){
+    if(!userInfo) window.location = '/login'
+    else if(userInfo.username !== e.target.value){
       return alert("You can only delete your own posts!")
     }else{
-      console.log("this is my post and I want it gone ")
+      const data = {creator: userInfo.username, title:e.target.id}
+      console.log(data)
+      axios.delete('http://localhost:5000/delete', {data})
+        .then(res => {
+          console.log(res)
+          window.location.reload(false)
+        }).catch(error => {
+          console.log(error)
+        })
+
     }
   } 
 
@@ -59,16 +78,16 @@ const Posts = ({userInfo}) => {
   return(
     <div>
       <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-success">Search</Button>
+      <FormControl type="text"  placeholder="Search" onChange={handleSearch} className="mb-3 text-center" />
+      {/* <Button variant="outline-success">Search</Button> */}
       </Form>
       <Container>
         <Row>
           <Col lg={3} md={4} sm={12}><Post userInfo={userInfo}/></Col> 
-          <Col lg={9} md={8} sm={12}>
+          <Col lg={9} md={8} sm={12} className="">
           <Row xs={1} md={2} className="g-4">
-            {allPosts ? allPosts.map(post => {
-              return <Card className="p-3 mx-auto" >
+            {allPosts ? allPosts.slice(0).reverse().map(post => {
+              return<Col className="flex"> <Card className="p-3 mx-auto" >
                 <Card.Img variant="top" src={post.image} />
                 <Card.Body >
                   <Card.Title>{post.title}</Card.Title>
@@ -76,12 +95,12 @@ const Posts = ({userInfo}) => {
                     {post.postInfo}
                   </Card.Text>
                   {/* <Button onClick={handleLike} value={post.likes} id={post._id} variant="success"></Button> */}
-                  <Button value={post.creator} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
+                  <Button value={post.creator} id={post.title} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
                 <Card.Footer>
-                  Ceated By: {post.creator}
+                  Created by <b>{post.creator}</b>, <b><ReactTimeAgo date={post.createdAt} locale="en-US"/></b>
                 </Card.Footer>
                 </Card.Body>
-              </Card>
+              </Card></Col>
               {/* <img src={post.image}></img> */}
               }): <p style={{fontSize:"15px"}}>Loading posts...</p>}
           </Row>
