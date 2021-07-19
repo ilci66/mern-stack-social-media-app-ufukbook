@@ -51,7 +51,7 @@ const Post = ({userInfo}) => {
   return(
     <div>
       <h2>Create posts here</h2>
-        <div className="mb-0">
+        <div className="mb-1">
           <input 
             type="file" 
             className="form-control" 

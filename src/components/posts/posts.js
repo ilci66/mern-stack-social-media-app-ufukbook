@@ -11,13 +11,18 @@ TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(ru)
 
 const Posts = ({userInfo}) => {
+
   const [allPosts, setAllPosts] = useState(undefined)
   const [likeCount, setLikeCount] = useState(undefined)
   const [searchBy, setSearchBy] = useState("")
   const [liked, setLiked] = useState(undefined)
   // console.log(userInfo.username)
   useEffect(() => {
-    axios.get('http://localhost:5000/posts')
+    // if(!userInfo){
+    //   return window.location = '/login'
+    // }
+    // else{
+      axios.get('http://localhost:5000/posts')
       .then(res => {
         console.log(typeof res.data)
         setAllPosts(res.data.slice(0).reverse())
@@ -26,6 +31,8 @@ const Posts = ({userInfo}) => {
       .catch(error => {
         console.log(error)
       })
+    // }
+    
   }, [])
   const handleSearch = (e) => {
     console.log(e.target.value)
@@ -87,10 +94,10 @@ const Posts = ({userInfo}) => {
   return(
     <div>
       <Form inline>
-      <FormControl type="text"  placeholder="Search" onChange={handleSearch} className="mb-3 text-center" />
+      <FormControl type="text"  placeholder="Search" onChange={handleSearch} className="mb-3 text-center w-30"/>
       {/* <Button variant="outline-success">Search</Button> */}
       </Form>
-      <Container>
+      {userInfo ?       <Container>
         <Row>
           <Col lg={3} md={4} sm={12}><Post userInfo={userInfo}/></Col> 
           <Col lg={9} md={8} sm={12} className="">
@@ -111,7 +118,7 @@ const Posts = ({userInfo}) => {
                 </Card.Body>
               </Card></Col>
               {/* <img src={post.image}></img> */}
-              }): allPosts && searchBy !== "" ? allPosts.filter(post => post.title.search(new RegExp(searchBy)) >= 0).map(post => {
+              }): allPosts && searchBy !== "" ? allPosts.filter(post => post.title.search(new RegExp(searchBy, "i")) >= 0).map(post => {
               return<Col className="flex"> <Card className="p-3 mx-auto" >
                 <Card.Img variant="top" src={post.image} />
                 <Card.Body >
@@ -132,7 +139,8 @@ const Posts = ({userInfo}) => {
           </Col>
         </Row>
         
-      </Container>
+      </Container> : "Loading..."}
+
       
     </div>
     )

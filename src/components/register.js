@@ -31,7 +31,7 @@ const Register = () => {
   return (
     <div>
     <h1>Register</h1>
-    <div className="form-group">
+    <div className="form-group w-50 mx-auto mt-4 mb-2">
     <label>Username</label>
       <input
         type="text"
@@ -41,7 +41,7 @@ const Register = () => {
         onChange={(e) => setRegisterUsername(e.target.value)}
       />
     </div>
-    <div className="form-group">
+    <div className="form-group w-50 mx-auto mb-2">
     <label>Email</label>
      <input
         required
@@ -51,16 +51,17 @@ const Register = () => {
         onChange={(e) => setRegisterEmail(e.target.value)}
     />    
     </div>
-
-    <div className="form-group"></div>
+    <div className="form-group w-50 mb-2 mx-auto">
     <label>Password</label>
     <input
+      required
       className="form-control"
       type="password"
       // placeholder="password"
       onChange={(e) => setRegisterPassword(e.target.value)}
     />
-    <div className="form-group">
+    </div>
+    <div className="form-group w-50 mx-auto mb-4">
     <label>Password again</label>
      <input
         required
@@ -71,11 +72,15 @@ const Register = () => {
     /> 
     </div>
     
-    <button className="btn btn-primary"onClick={register}>Submit</button>
-    <p>
+    <button className="btn btn-primary mb-2"onClick={register}>Submit</button>
+    <p className="mb-5">
       Do you have an account? <Link to="/login">Login</Link>
     </p>
-    <p className="text-danger">{errorMessage}</p>
+    {errorMessage !== "" && <p className="alert alert-danger">{errorMessage}</p>}
+    <footer className="mt-5">
+      <p className="mb-0">Ilker Akbiyik</p>
+      <p><a href="https://github.com/ilci66">Github profile</a></p>
+    </footer>
   </div>
 
   )

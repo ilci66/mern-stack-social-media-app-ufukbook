@@ -11,7 +11,7 @@ const Home = () => {
     axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5000/profile",
+      url: "http://localhost:5000/auth",
     }).then((res) => {
       console.log(res.data);
       if(res.data) setUserInfo(res.data)

@@ -71,13 +71,14 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/posts', (req, res, next) => {
+  console.log("attempted to get posts")  
   Post.find({}, (err, data) => {
-    if(err) throw err;
-    else if(!data) res.status(400).json({error: "There are no posts to show"})
-    else{
-      res.status(200).json(data)
-    }
-  })
+  if(err) throw err;
+  else if(!data) res.status(400).json({error: "There are no posts to show"})
+  else{
+    res.status(200).json(data)
+  }
+})
 })
 router.delete('/delete', (req, res) => {
   // console.log("comes here<<<<<")
@@ -98,37 +99,38 @@ router.delete('/delete', (req, res) => {
   })
 })
 router.post('/post/create', (req, res) => {
-  const {image, creator, title, postInfo} = req.body
-  // console.log("this is the image", image)
-  if(isEmpty(postInfo) || isEmpty(title)){
-    return res.status(400).json({ error: "Missing required fields"})
-  }
-  Post.findOne({title: title}, (err, data) => {
-    if(err) throw err
-    else if(data) {
-      return res.status(400).json({error: "There's already a post with the same title!"})
-    }else{
-      const newPost = new Post({
-        image: image,
-        creator: creator,
-        title: title,
-        postInfo: postInfo,
-        likes:[]
-      })
-      // console.log(newPost.image)
-      newPost.save()
-        .then(post => {
-        console.log(post)
-        res.status(201).send("successfully created")
-        User.findOneAndUpdate({username: creator},{$inc : {'postedCount' : 1}}, {new:true}).exec((err, data) => {
-          if(err)throw err
-          else if(!data) res.status(400).json({error: "no data found"})
-          else{ console.log("successfully incremented") }
-        })
-        })
-        .catch(error => {console.log(error)})
+  if(req.isAuthenticated()){
+    const {image, creator, title, postInfo} = req.body
+      // console.log("this is the image", image)
+      if(isEmpty(postInfo) || isEmpty(title)){
+        return res.status(400).json({ error: "Missing required fields"})
+      }
+      Post.findOne({title: title}, (err, data) => {
+        if(err) throw err
+        else if(data) {
+          return res.status(400).json({error: "There's already a post with the same title!"})
+        }else{
+          const newPost = new Post({
+            image: image,
+            creator: creator,
+            title: title,
+            postInfo: postInfo,
+            likes:[]
+          })
+          // console.log(newPost.image)
+          newPost.save()
+            .then(post => {
+            console.log(post)
+            res.status(201).send("successfully created")
+            User.findOneAndUpdate({username: creator},{$inc : {'postedCount' : 1}}, {new:true}).exec((err, data) => {
+              if(err)throw err
+              else if(!data) res.status(400).json({error: "no data found"})
+              else{ console.log("successfully incremented") }
+            })
+            })
+            .catch(error => {console.log(error)})
     }
-  })
+  })}
 })
 // router.post('/post/like', (req, res) => {
 //   const {username, id} = req.body
@@ -158,13 +160,12 @@ router.post('/post/create', (req, res) => {
 //   })
 
 // })  
-router.get('/profile', (req, res) => {
+router.get('/auth', (req, res) => {
   console.log(req.isAuthenticated())
   res.send(req.user)
   console.log(req.user)
 })
 router.get('/user/profile', (req, res) => {
-  console.log("this is for profile", req.isAuthenticated())
   if(!req.isAuthenticated()){
     return res.status(400).json({error: "Unauthorized attempt"})
   }

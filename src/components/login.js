@@ -9,6 +9,9 @@ const Login = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const data = {username: loginUsername, password: loginPassword}
   const login = (e) => {
+    if(loginUsername === "" || loginPassword === ""){
+      return setMessage("Missing required fields")
+    }
     axios.post('http://localhost:5000/login', data, {withCredentials: true})
       .then(res => {
         console.log("get response from server")
@@ -45,7 +48,7 @@ const handleKeyPress = (event) => {
   return (
     <div onKeyPress={handleKeyPress}>
         <h1>Login</h1>
-        <div className="form-group">
+        <div className="form-group center-block mx-auto w-50">
         <label>Username</label>
           <input
           className="form-control"
@@ -56,16 +59,16 @@ const handleKeyPress = (event) => {
          /> 
         <label>Password</label>
           <input
-          className="form-control"
-           required
-           type="password"
-           // placeholder="password"
-           onChange={(e) => setLoginPassword(e.target.value)}
+            className="form-control mb-3"
+            required
+            type="password"
+            // placeholder="password"
+            onChange={(e) => setLoginPassword(e.target.value)}
           />
         <div  classname="form-group">
-        <input type="submit" value="enter" className="btn btn-primary" onClick={login}></input>
+        <input type="submit" value="Enter" className="btn btn-primary" onClick={login}></input>
         </div>
-        <p>Don't you have an account? <Link to="/register">Register</Link></p>
+        <p className="mt-4">Don't you have an account? <Link to="/register">Register</Link></p>
         {message != "" && <Alert variant="danger">
           <p>{message}</p>
         </Alert>}
