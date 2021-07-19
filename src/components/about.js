@@ -1,45 +1,46 @@
 import React from 'react';
+import {Carousel, Item, Caption} from 'react-bootstrap'
 
 const About = () => {
   return(
     <div>
-    <Carousel>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=First slide&bg=373940"
-      alt="First slide"
-    />
-    <Carousel.Caption>
-      <h3>First slide label</h3>
-      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=Second slide&bg=282c34"
-      alt="Second slide"
-    />
+    <Carousel className="mb-5 p-1">
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="https://i.imgur.com/5Z8nDvl.jpg"
+          alt="First slide"
+        />
+        <Carousel.Caption variation="dark">
+          <h3>Great with Animals</h3>
+          <p>With his cat J.Lo that he rescued from a burning building.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="https://i.imgur.com/kFLOjny.jpg?1"
+          alt="Second slide"
+        />
 
-    <Carousel.Caption>
-      <h3>Second slide label</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src="holder.js/800x400?text=Third slide&bg=20232a"
-      alt="Third slide"
-    />
+        <Carousel.Caption>
+          <h3>Work hard, play hard!</h3>
+          <p>His colleagues are delighted to work with him, chosen employee of the year 4 years in row.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src="https://i.imgur.com/gLFiC4o.jpg?1"
+          alt="Third slide"
+        />
 
-    <Carousel.Caption>
-      <h3>Third slide label</h3>
-      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-</Carousel>
+        <Carousel.Caption>
+          <h3>Adventurous.</h3>
+          <p>Loves exploring, full of curiosity!</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
       <h1>Who's Ufuk The Ipressive?</h1>
       <p>lorem ipsumAliquip nulla magna minim magna. 
       Deserunt quis do ullamco pariatur commodo
