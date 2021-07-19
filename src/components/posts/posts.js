@@ -13,14 +13,14 @@ TimeAgo.addLocale(ru)
 const Posts = ({userInfo}) => {
   const [allPosts, setAllPosts] = useState(undefined)
   const [likeCount, setLikeCount] = useState(undefined)
-  const [likedUsers, setLikedUsers] = useState(undefined)
+  const [searchBy, setSearchBy] = useState("")
   const [liked, setLiked] = useState(undefined)
   // console.log(userInfo.username)
   useEffect(() => {
     axios.get('http://localhost:5000/posts')
       .then(res => {
         console.log(typeof res.data)
-        setAllPosts(res.data)
+        setAllPosts(res.data.slice(0).reverse())
         // console.log(allPosts.length)
       })
       .catch(error => {
@@ -29,7 +29,16 @@ const Posts = ({userInfo}) => {
   }, [])
   const handleSearch = (e) => {
     console.log(e.target.value)
+    setSearchBy(e.target.value)
+    // var re = new RegExp(e.target.value)
+
+    // setAllPosts(allPosts.filter(post => post.title.search(re) >= 0))
+
   }
+    
+    // console.log(typeof allPosts)
+    
+    
   const handleDelete = (e) => {
     if(!userInfo) window.location = '/login'
     else if(userInfo.username !== e.target.value){
@@ -86,7 +95,7 @@ const Posts = ({userInfo}) => {
           <Col lg={3} md={4} sm={12}><Post userInfo={userInfo}/></Col> 
           <Col lg={9} md={8} sm={12} className="">
           <Row xs={1} md={2} className="g-4">
-            {allPosts ? allPosts.slice(0).reverse().map(post => {
+            {allPosts && searchBy === "" ? allPosts.map(post => {
               return<Col className="flex"> <Card className="p-3 mx-auto" >
                 <Card.Img variant="top" src={post.image} />
                 <Card.Body >
@@ -102,7 +111,23 @@ const Posts = ({userInfo}) => {
                 </Card.Body>
               </Card></Col>
               {/* <img src={post.image}></img> */}
-              }): <p style={{fontSize:"15px"}}>Loading posts...</p>}
+              }): allPosts && searchBy !== "" ? allPosts.filter(post => post.title.search(new RegExp(searchBy)) >= 0).map(post => {
+              return<Col className="flex"> <Card className="p-3 mx-auto" >
+                <Card.Img variant="top" src={post.image} />
+                <Card.Body >
+                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Text>
+                    {post.postInfo}
+                  </Card.Text>
+                  {/* <Button onClick={handleLike} value={post.likes} id={post._id} variant="success"></Button> */}
+                  <Button value={post.creator} id={post.title} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
+                <Card.Footer>
+                  Created by <b>{post.creator}</b>, <b><ReactTimeAgo date={post.createdAt} locale="en-US"/></b>
+                </Card.Footer>
+                </Card.Body>
+              </Card></Col>
+              {/* <img src={post.image}></img> */}
+              }) :<p style={{fontSize:"15px"}}>Loading posts...</p>}
           </Row>
           </Col>
         </Row>
