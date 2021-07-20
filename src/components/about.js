@@ -24,7 +24,7 @@ const About = () => {
   
   return(
     <div>
-    {userInfo ? <Carousel className="mb-5 p-1">
+    {userInfo ? <Carousel className="mb-5">
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -33,7 +33,7 @@ const About = () => {
         />
         <Carousel.Caption variation="dark">
           <h3>Great with Animals</h3>
-          <p>With his cat J.Lo that he rescued from a burning building.</p>
+          <p>Here with his cat J.Lo that he rescued from a burning building.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>

@@ -16,7 +16,6 @@ const Login = () => {
       .then(res => {
         console.log("get response from server")
         console.log(res.data)
-        // setMessage("Log in Successful.")
         window.location = '/'
         })
       .catch(error => {
@@ -24,21 +23,6 @@ const Login = () => {
         console.log("catching", error.response)
         setMessage(error.response.data.error)
       })
-  // axios({
-  //   method: "POST",
-  //   data: {
-  //     username: loginUsername,
-  //     password: loginPassword,
-  //   },
-  //   withCredentials: true,
-  //   url: "http://localhost:5000/login",
-  // }).then((res) => {
-  //   window.location="/"
-  //   console.log("response <<<", res)
-  // }).catch(error => {
-  //   console.log(error)
-  //   setErrorMessage(error.response.data.error)
-  // })
 };
 const handleKeyPress = (event) => {
   if(event.charCode === 13){
@@ -54,7 +38,6 @@ const handleKeyPress = (event) => {
           className="form-control"
           type="text"
            required
-          // placeholder="username"
           onChange={(e) => setLoginUsername(e.target.value)}
          /> 
         <label>Password</label>
@@ -62,7 +45,6 @@ const handleKeyPress = (event) => {
             className="form-control mb-3"
             required
             type="password"
-            // placeholder="password"
             onChange={(e) => setLoginPassword(e.target.value)}
           />
         <div  classname="form-group">
@@ -75,39 +57,6 @@ const handleKeyPress = (event) => {
         
         </div>
       </div>
-  //something here in the forms breaks the request gonna figure out what
-  //probably the submit but we will see
-  //   <div>
-  //   <h1>Login</h1>
-  //   <form onSubmit={login}>
-  //     <div className="form-group">
-  //       <label>Username</label>
-  //         <input
-  //         className="form-control"
-  //         type="text"
-  //         required
-  //         // placeholder="username"
-  //         onChange={(e) => setLoginUsername(e.target.value)}
-  //       />
-  //     </div>
-  //     <div className="form-group">
-  //       <label>Password</label>
-  //       <input
-  //         className="form-control"
-  //         required
-  //         type="password"
-  //         // placeholder="password"
-  //         onChange={(e) => setLoginPassword(e.target.value)}
-  //     />
-  //     </div>
-  //     <div className="form-group">
-  //       <input type="submit" value="Enter" className="btn btn-primary" />
-  //     </div>
-  //   </form>
-
-  //   <p>Don't you have an account? <Link to="/register">Register</Link></p>
-  //   <p className="text-danger">{message}</p>
-  // </div>
   )
 }
 

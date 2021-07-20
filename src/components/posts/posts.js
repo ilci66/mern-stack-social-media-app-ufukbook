@@ -16,17 +16,12 @@ const Posts = ({userInfo}) => {
   const [likeCount, setLikeCount] = useState(undefined)
   const [searchBy, setSearchBy] = useState("")
   const [liked, setLiked] = useState(undefined)
-  // console.log(userInfo.username)
+
   useEffect(() => {
-    // if(!userInfo){
-    //   return window.location = '/login'
-    // }
-    // else{
       axios.get('http://localhost:5000/posts')
       .then(res => {
         console.log(typeof res.data)
         setAllPosts(res.data.slice(0).reverse())
-        // console.log(allPosts.length)
       })
       .catch(error => {
         console.log(error)
@@ -37,18 +32,23 @@ const Posts = ({userInfo}) => {
   const handleSearch = (e) => {
     console.log(e.target.value)
     setSearchBy(e.target.value)
-    // var re = new RegExp(e.target.value)
-
-    // setAllPosts(allPosts.filter(post => post.title.search(re) >= 0))
 
   }
-    
-    // console.log(typeof allPosts)
-    
-    
+
   const handleDelete = (e) => {
     if(!userInfo) window.location = '/login'
-    else if(userInfo.username !== e.target.value){
+    else if(userInfo.username == "ufuk"){
+      console.log("here")
+      const data = {creator: userInfo.username, title:e.target.id}
+      console.log(data)
+      axios.delete('http://localhost:5000/delete', {data})
+        .then(res => {
+          console.log(res)
+          window.location.reload(false)
+        }).catch(error => {
+          console.log(error)
+        })
+    }else if(userInfo.username !== e.target.value){
       return alert("You can only delete your own posts!")
     }else{
       const data = {creator: userInfo.username, title:e.target.id}
@@ -60,42 +60,12 @@ const Posts = ({userInfo}) => {
         }).catch(error => {
           console.log(error)
         })
-
     }
   } 
-
-  // const handleLike = (e) => {
-  //   if(!userInfo){ return window.location = '/login'}
-  //   console.log(typeof e.target.id, typeof e.target.value)
-  //   console.log("this is likes", typeof e.target.value)
-  //   console.log("this is the id", )
-    
-  //   const data = { 
-  //     username: userInfo.username,
-  //     id: e.target.id
-  //   }
-  //   axios.post('http://localhost:5000/post/like', data, {withCredentials: true})
-  //     .then(res => {
-  //       console.log(res.data.message)
-  //       if(res.data.message === "disliked") {
-  //         setLiked("Like")
-  //         window.location.reload(false)
-  //       }
-  //       if(res.data.message === "liked") {
-  //         setLiked("Dislike")
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-
-  // }
-//aldıgın datayı gerekli olanları en azında state butonu ve badgi oyle degistir button stateleri de degistirsin mix
   return(
     <div>
       <Form inline>
       <FormControl type="text"  placeholder="Search" onChange={handleSearch} className="mb-3 text-center w-30"/>
-      {/* <Button variant="outline-success">Search</Button> */}
       </Form>
       {userInfo ?       <Container>
         <Row>
@@ -110,14 +80,14 @@ const Posts = ({userInfo}) => {
                   <Card.Text>
                     {post.postInfo}
                   </Card.Text>
-                  {/* <Button onClick={handleLike} value={post.likes} id={post._id} variant="success"></Button> */}
+                  
                   <Button value={post.creator} id={post.title} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
                 <Card.Footer>
                   Created by <b>{post.creator}</b>, <b><ReactTimeAgo date={post.createdAt} locale="en-US"/></b>
                 </Card.Footer>
                 </Card.Body>
               </Card></Col>
-              {/* <img src={post.image}></img> */}
+              
               }): allPosts && searchBy !== "" ? allPosts.filter(post => post.title.search(new RegExp(searchBy, "i")) >= 0).map(post => {
               return<Col className="flex"> <Card className="p-3 mx-auto" >
                 <Card.Img variant="top" src={post.image} />
@@ -126,14 +96,14 @@ const Posts = ({userInfo}) => {
                   <Card.Text>
                     {post.postInfo}
                   </Card.Text>
-                  {/* <Button onClick={handleLike} value={post.likes} id={post._id} variant="success"></Button> */}
+                
                   <Button value={post.creator} id={post.title} variant="danger" className="mb-2" onClick={handleDelete}>Delete Post</Button>
                 <Card.Footer>
                   Created by <b>{post.creator}</b>, <b><ReactTimeAgo date={post.createdAt} locale="en-US"/></b>
                 </Card.Footer>
                 </Card.Body>
               </Card></Col>
-              {/* <img src={post.image}></img> */}
+  
               }) :<p style={{fontSize:"15px"}}>Loading posts...</p>}
           </Row>
           </Col>

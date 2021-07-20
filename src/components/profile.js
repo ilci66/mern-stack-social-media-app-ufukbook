@@ -5,9 +5,6 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ru from 'javascript-time-ago/locale/ru'
 
-// TimeAgo.addDefaultLocale(en)
-// TimeAgo.addLocale(ru)
-
 
 const Profile = () => {
   const [data, setData] = useState(null);
@@ -22,11 +19,11 @@ const Profile = () => {
         if(res.data) setData(res.data)
         else if(!res.data){
           console.log("no data came through")
-          // window.location="/login"
+          window.location="/login"
         }
       }).catch(error => {
         console.log("some error occured", error)
-        // window.location="/login"
+        window.location="/login"
       })
     },[])
     

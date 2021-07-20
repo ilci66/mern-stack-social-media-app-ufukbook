@@ -7,8 +7,7 @@ const Post = ({userInfo}) => {
   const [postInfo, setPostInfo] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage ] = useState(undefined);
-  
-  // console.log(userInfo)
+
 
   const handleSubmit = async (e) => {
     try {
@@ -27,7 +26,6 @@ const Post = ({userInfo}) => {
         .then(res => {
           setErrorMessage("")
           console.log("post created")
-          // console.log(res.data)
           setImage(undefined)
           setTitle("")
           setPostInfo("")

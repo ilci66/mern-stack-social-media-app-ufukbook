@@ -18,14 +18,9 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          {/* <Route exact path="/posts">
-            <Navbar />
-            <Posts />
-          </Route> */}
           <Route exact path="/"> 
             <NavBar />
             <Home />
-            {/* <Posts /> */}
           </Route>
           <Route exact path="/about">
             <NavBar />
@@ -37,7 +32,6 @@ function App() {
             <NavBar />
             <Profile />
           </Route>
-          {/* <Route exact path="/post/:id"><Post /></Route> */}
         </Switch>
       </Router>
     </div>
